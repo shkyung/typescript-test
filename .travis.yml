@@ -15,6 +15,7 @@ deploy:
     secret_access_key: $AWS_SECRET_ACCESS_KEY
     bucket: front-dev.lunit.io/shkyung
     skip_cleanup: true
+    region: ap-northeast-2
     local_dir: ./build
     on:
       branch: develop
