@@ -7,7 +7,7 @@ node_js: '10'
 cache:
   directories: '${HOME}/.cache/yarn'
 deploy:
-  # deploy develop → front-dev.lunit.io
+  # deploy master → front-dev.lunit.io
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY_ID
     secret_access_key: $AWS_SECRET_ACCESS_KEY
