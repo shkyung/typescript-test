@@ -6,8 +6,9 @@ language: node_js
 node_js: '10'
 cache:
   directories: '${HOME}/.cache/yarn'
-before_install:
-  - sudo apt-get install -y tree
+before_deploy:
+  - yarn build
+  - pip install --user awscli
 deploy:
   # deploy develop → front-dev.lunit.io
   - provider: s3
