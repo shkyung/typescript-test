@@ -11,7 +11,7 @@ deploy:
   - provider: s3
     access_key_id: $AWS_ACCESS_KEY_ID
     secret_access_key: $AWS_SECRET_ACCESS_KEY
-    bucket: front-dev.lunit.io/shkyung
+    bucket: front-dev.lunit.io
     skip_cleanup: true
     region: ap-northeast-2
     local_dir: build
