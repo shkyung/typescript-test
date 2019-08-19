@@ -1,0 +1,23 @@
+branches:
+  only:
+    - master
+    - develop
+language: node_js
+node_js: '10'
+cache:
+  directories: '${HOME}/.cache/yarn'
+before_install:
+  - sudo apt-get install -y tree
+script:
+  - yarn lint
+  - yarn test
+deploy:
+  # deploy develop → front-dev.lunit.io
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    bucket: front-dev.lunit.io/shkyung
+    skip_cleanup: true
+    local_dir: ./build
+    on:
+      branch: develop
