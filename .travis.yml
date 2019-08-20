@@ -9,6 +9,7 @@ cache:
 before_install:
   - sudo apt-get install -y tree
 after_success:
+  - yarn build
   - tree ./build
 deploy:
   # deploy master → front-dev.lunit.io
