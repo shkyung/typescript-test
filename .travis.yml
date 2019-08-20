@@ -6,6 +6,10 @@ language: node_js
 node_js: '10'
 cache:
   directories: '${HOME}/.cache/yarn'
+before_install:
+  - sudo apt-get install -y tree
+after_success:
+  - tree ./build
 deploy:
   # deploy master → front-dev.lunit.io
   - provider: s3
@@ -15,5 +19,6 @@ deploy:
     skip_cleanup: true
     region: ap-northeast-2
     local_dir: build
+    upload-dir: shkyung
     on:
       branch: master
