@@ -47,6 +47,9 @@ export function TodoProvider({ children }) {
     const [state, dispatch] = useReducer(todoReducer, initialTodos);
     const nextId = useRef(5);
 
+    console.error("state : ", state);
+    console.error("dispatch : ", dispatch)
+
     return (
         <TodoStateContext.Provider value={state}>
             <TodoDispatchContext.Provider value={dispatch}>

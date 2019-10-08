@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
-import styled, {css, StyledInterface} from 'styled-components';
+import React, {
+    useState,
+    MutableRefObject,
+    FormEvent,
+    EventHandler,
+    MouseEventHandler,
+    ChangeEventHandler, ReactElement,
+} from 'react';
+import styled, { css, StyledComponent } from 'styled-components';
 import { MdAdd } from 'react-icons/md';
-import { useTodoDispatch, useTodoNextId } from '../TodoContext';
+import { useTodoDispatch, useTodoNextId, TodoDispatch } from '../TodoContext';
 
-const CircleButton = styled.div`
+const CircleButton: StyledComponent<"div", {}, { children: ReactElement; onClick: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void; open: boolean; }, never> = styled.div`
 background: #38d9a9;
 &:hover {
     background: #63e6be;
@@ -33,7 +40,7 @@ outline: none;
 
 transition: 0.125s all ease-in;
 
-${props => props.open && css`
+${open => open && css`
 background: #ff6b6b;
 &:hover {
     background: #ff8787;
@@ -44,15 +51,15 @@ background: #ff6b6b;
 transform: translate(-50%, 50%) rotate(45deg);
 `}
 `;
-
-const InsertFormPositioner = styled.div`
+//div definition
+const InsertFormPositioner: StyledComponent<"div", {}, {}, never> = styled.div`
 width: 100%;
 bottom: 0;
 left: 0;
 position: absolute;
 `;
 
-const InsertForm = styled.form`
+const InsertForm: StyledComponent<"form", {}, {}, never> = styled.form`
 background: #f8f9fa;
 padding: 32px;
 padding-bottom: 72px;
@@ -60,32 +67,8 @@ border-bottom-left-radius: 16px;
 border-bottom-right-radius: 16px;
 border-top: 1px solid #e9ecef;
 `;
-const TodoHeadBlock = styled.div`
-padding-top: 48px;
-padding-left: 32px;
-padding-right: 32px;
-padding-bottom: 24px;
-border-bottom: 1px solid #e9ecef;
 
-h1 {
-margin: 0;
-fon-size: 36px;
-color: #343a40;
-}
-
-.day {
-    margin-top: 4px;
-    color: #868e96;
-    font-size: 21px;
-}
-font-size: 18px;
-margin-top:40px;
-}
-`;
-
-
-
-const Input = styled.input`
+const Input: StyledComponent<"input", {}, {}, never> = styled.input`
 padding: 12px;
 border-radius: 4px;
 border: 1px solid #dee2e6;
@@ -99,40 +82,42 @@ function TodoCreate() {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState("");
 
-    const onToggle = () => setOpen(!open);
-    const onChange = (e) => setValue(e.target.value);
-    const onSubmit = e => {
+    const onToggle: MouseEventHandler<HTMLDivElement> = () => setOpen(!open);
+    const onChange: ChangeEventHandler<HTMLInputElement> = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value);
+    const onSubmit: EventHandler<FormEvent> = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch({
             type: "CREATE",
-            todo: {
-                id: nextId.current,
-                text: value,
-                done: false,
-            }
+            todo: [
+                {
+                    id: nextId.current,
+                    text: value,
+                    done: false,
+                },
+            ],
         });
         setValue("");
         setOpen(false);
         nextId.current += 1;
     };
 
-    const dispatch = useTodoDispatch();
-    const nextId = useTodoNextId();
+    const dispatch: TodoDispatch = useTodoDispatch();
+    const nextId: MutableRefObject<number> = useTodoNextId();
 
     return (
-        <>
+        <React.Fragment>
             {open && (<InsertFormPositioner>
                 <InsertForm onSubmit={onSubmit}>
                     <Input placeholder="할일 입력 후 엔터 "
-                        autoFocus
-                        onChange={onChange}
-                        value={value} />
+                           autoFocus
+                           onChange={onChange}
+                           value={value}/>
                 </InsertForm>
             </InsertFormPositioner>)}
             <CircleButton onClick={onToggle} open={open}>
-                <MdAdd />
+                <MdAdd/>
             </CircleButton>
-        </>
+        </React.Fragment>
     )
 }
 

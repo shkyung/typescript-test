@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
     "target": "es5",
+    "noImplicitAny": false,
+    "removeComments": true,
     "lib": [
       "dom",
       "dom.iterable",

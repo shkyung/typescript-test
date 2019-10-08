@@ -1,22 +1,35 @@
 import React from 'react';
+import { createGlobalStyle, GlobalStyleComponent, DefaultTheme } from "styled-components";
+import TodoTemplate from './components/TodoTemplate';
+import TodoHead from './components/TodoHead';
+import TodoList from './components/TodoList';
+import TodoCreate from './components/TodoCreate';
+import { TodoProvider } from './TodoContext'
 
-const App: React.FC = () => {
+const GlobalStyle: GlobalStyleComponent<{}, DefaultTheme> = createGlobalStyle`
+body {
+background: #e9ecef;
+}
+`;
+
+// const GlobalStyle: StyledInterface = createGlobalStyle`
+// body {
+// background: #e9ecef;
+// }
+// `;
+
+function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <TodoProvider>
+      <GlobalStyle/>
+      <TodoTemplate>
+        <TodoHead />
+        <TodoList />
+        <TodoCreate />
+      </TodoTemplate>
+      </TodoProvider>
+    </>
   );
 }
 
